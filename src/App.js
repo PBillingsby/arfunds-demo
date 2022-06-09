@@ -10,11 +10,9 @@ function App() {
       console.log(error)
     }
   }
-  viewContracts()
-    .catch(console.error);
   return (
     <div>
-      <button onClick={getAllContracts}>
+      <button onClick={viewContracts}>
         Get all contracts
       </button>
     </div>
