@@ -1,71 +1,78 @@
-import { useState } from 'react'
 import Arweave from 'arweave'
-import Arfund, { getAllContracts, loadBalances } from "arfunds";
+import Arfund, { createPool } from "arfunds";
+import * as fs from 'fs'
 
 function App() {
-  const [contracts, setContracts] = useState([])
-  var arweave = Arweave.init({
+  const poolObject = {}
+  const arweave = Arweave.init({
     host: "arweave.net",
     port: 443,
     protocol: "https",
     timeout: 20000,
     logging: false,
   });
-  let fund;
-  // var printState = async () => {
-  //   var state = await fund.getState();
-  //   console.log(state)
-  // }
-  // printState();
-  console.log("awaiting arconnect");
-  console.log(window);
-  window.addEventListener("arweaveWalletLoaded", () => {
-    /** Handle ArConnect load event **/
-    console.log("READY");
-    connectToArconnect();
-  });
-  console.log(window.arweaveWallet);
-  const connectToArconnect = async () => {
-    await window.arweaveWallet.connect(['ACCESS_ADDRESS', 'ACCESS_ALL_ADDRESSES', 'SIGN_TRANSACTION']);
 
-    window.addEventListener('walletSwitch', async () => {
-      await this.loadBalances();
-    });
-    await this.loadBalances();
+  const handleChange = (e) => {
+    console.log(e.target.name, e.target.value)
+    poolObject[e.target.name] = e.target.value
+    console.log(poolObject)
   }
-  var contribute = async (amount, contractId) => {
-    fund = new Arfund(contractId, arweave, true);
-    var interaction = await fund.contribute(amount);
-    console.log(interaction);
+
+  const handlePoolCreate = async (e) => {
+    e.preventDefault()
+
+    const {
+      title,
+      description,
+      website,
+      wallet,
+      operatorInfo,
+      rewards
+    } = poolObject;
+
+    try {
+      await createPool(arweave, title, description, wallet, website, operatorInfo, rewards);
+    } catch (error) {
+      console.log(error)
+    }
+
+    debugger
+
   }
-  var read = async (contractId) => {
-    fund = new Arfund(contractId, arweave, true);
-    var state = await fund.getState(state);
-    document.getElementById("stateData").innerHTML = JSON.stringify(state, null, 2);
-  }
-  const getContracts = async () => {
-    const incomingContracts = await getAllContracts(arweave);
-    setContracts(incomingContracts)
-    console.log('incoming: ', contracts)
-    // document.getElementById("allContracts").innerHTML = JSON.stringify(contracts, null, 2);
-  }
-  // const viewContracts = async () => {
-  //   try {
-  //     let contracts = await getAllContracts();
-  //     console.log(contracts)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+
   return (
-    <div>
-      <script src="https://unpkg.com/arfunds@latest/umd/arfunds_bundle.js"></script>
-      <script src="https://unpkg.com/arweave/bundles/web.bundle.min.js"></script>
-      <button onClick={getContracts}>
-        Get all contracts
-      </button>
+    <div style={{ padding: '1rem' }}>
+      <div>
+        <h3>Create Pool</h3>
+        <form onSubmit={(e) => handlePoolCreate(e)}>
+          <label>Title</label>
+          <div>
+            <input type='text' name='title' onChange={(e) => handleChange(e)} />
+          </div>
+          <label>Description</label>
+          <div>
+            <textarea name='description' onChange={(e) => handleChange(e)} style={{ width: '15rem', height: '15rem' }} />
+          </div>
+          <label>Website</label>
+          <div>
+            <input type='text' name='website' onChange={(e) => handleChange(e)} />
+          </div>
+          <label>Wallet</label>
+          <div>
+            <input type='text' name='wallet' onChange={(e) => handleChange(e)} />
+          </div>
+          <label>Operator Info</label>
+          <div>
+            <input type='text' name='OperatorInfo' onChange={(e) => handleChange(e)} />
+          </div>
+          <label>Rewards</label>
+          <div>
+            <input type='text' name='rewards' onChange={(e) => handleChange(e)} />
+          </div>
+          <button type='submit'>Create Pool</button>
+        </form>
+      </div>
     </div>
-  );
+  )
 }
-
 export default App;
