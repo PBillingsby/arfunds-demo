@@ -31,7 +31,7 @@ function App() {
     } = poolObject;
 
     try {
-      await createPool(arweave, title, description, wallet, website, operatorInfo, rewards);
+      await createPool(arweave, title, description, "use_wallet", wallet, website, operatorInfo, rewards);
     } catch (error) {
       console.log(error)
     }
