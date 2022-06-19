@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Arweave from 'arweave';
 import Arfund, { createPool, getAllContracts } from "arfunds";
-import PoolModal from '../src/components/PoolModal'
+import PoolModal from './components/PoolModal'
 import {
   Tooltip,
   FormControl,
