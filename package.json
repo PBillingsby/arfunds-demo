@@ -14,8 +14,8 @@
     "browserify": "^17.0.0",
     "framer-motion": "4.1.17",
     "path-browserify": "^1.0.1",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "react": "^17.1.0",
+    "react-dom": "^17.1.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^2.1.4"
   },
