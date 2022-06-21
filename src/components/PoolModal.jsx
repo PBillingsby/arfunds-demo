@@ -7,13 +7,11 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   Text,
   VStack,
   HStack,
-  Button,
   Link,
   useDisclosure
 } from '@chakra-ui/react'
@@ -23,9 +21,6 @@ const PoolModal = (props) => {
 
   const poolObject = props.data[0]
   const poolId = props.data[1]
-  const mint = () => {
-    console.log('Mint')
-  }
 
   useEffect(() => {
     const loadModal = () => {
@@ -80,13 +75,6 @@ const PoolModal = (props) => {
                 )}
             </div>
           </ModalBody>
-          <ModalFooter margin='0 auto'>
-            {
-              !props.loading && !poolObject.error && <Button bg={'#eee'} border={'1px solid black'} _hover={{ bg: '#fff' }} mr={3} onClick={mint}>
-                Mint
-              </Button>
-            }
-          </ModalFooter>
         </ModalContent>
         }
       </Modal>
