@@ -16,7 +16,7 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 
-const PoolModal = (props) => {
+export default function PoolModal(props) {
   const { isOpen, onClose, onOpen } = useDisclosure()
 
   const poolObject = props.data[0]
@@ -82,5 +82,3 @@ const PoolModal = (props) => {
     </>
   )
 }
-
-export default PoolModal
