@@ -14,12 +14,10 @@ import {
   Center,
   VStack,
   Text,
-  Link,
-  Box,
   Spinner,
   useDisclosure,
 } from '@chakra-ui/react';
-import { QuestionOutlineIcon, ExternalLinkIcon } from '@chakra-ui/icons';
+import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
 
 export default function PoolForm({ arweave }) {
@@ -50,8 +48,8 @@ export default function PoolForm({ arweave }) {
       if (validateFormInput(wallet, description)) return
       setLoading(true)
       const txId = await createPool(arweave, title, description, "use_wallet", wallet, website, operatorInfo, rewards);
+
       const fund = new Arfund(txId, arweave, true);
-      debugger
       if (fund && fund.poolId) {
         setData([poolObject, fund.poolId])
         setLoading(false)
@@ -88,10 +86,10 @@ export default function PoolForm({ arweave }) {
           </Center>
           :
           <>
-            <VStack px={16} pt={8}>
+            <VStack px={16} pt={2}>
               <FormControl>
                 <FormLabel fontSize='xl'>Pool Title</FormLabel>
-                <Input type='text' name='title' onChange={(e) => handleChange(e)} />
+                <Input type='text' name='title' borderColor='black' onChange={(e) => handleChange(e)} />
               </FormControl>
               <FormControl isInvalid={noDescription}>
                 <HStack pt={1.5}>
@@ -103,14 +101,14 @@ export default function PoolForm({ arweave }) {
                     <QuestionOutlineIcon color='blue' />
                   </Tooltip>
                 </HStack>
-                <Textarea name='description' onChange={(e) => handleChange(e)} w='30rem' h='32vh' />
+                <Textarea name='description' borderColor='black' onChange={(e) => handleChange(e)} w='30rem' h='32vh' />
                 {noDescription && <FormErrorMessage>Description is required.</FormErrorMessage>}
               </FormControl>
             </VStack>
             <VStack px={16} w={'xl'}>
               <FormControl>
                 <FormLabel fontSize='xl'>Website</FormLabel>
-                <Input type='text' name='website' onChange={(e) => handleChange(e)} />
+                <Input type='text' borderColor='black' name='website' onChange={(e) => handleChange(e)} />
               </FormControl>
               <FormControl isInvalid={noWallet} id='wallet'>
                 <HStack>
@@ -121,29 +119,25 @@ export default function PoolForm({ arweave }) {
                     <QuestionOutlineIcon color='blue' />
                   </Tooltip>
                 </HStack>
-                <Input type='text' name='wallet' onChange={(e) => handleChange(e)} />
+                <Input type='text' borderColor='black' name='wallet' onChange={(e) => handleChange(e)} />
                 {noWallet && <FormErrorMessage>Arwallet address is required.</FormErrorMessage>}
               </FormControl>
               <FormControl>
                 <FormLabel fontSize='xl'>Operator Info</FormLabel>
-                <Input type='text' name='operatorInfo' onChange={(e) => handleChange(e)} />
+                <Input type='text' borderColor='black' name='operatorInfo' onChange={(e) => handleChange(e)} />
               </FormControl>
               <FormControl>
                 <FormLabel fontSize='xl'>Rewards</FormLabel>
-                <Input type='text' name='rewards' onChange={(e) => handleChange(e)} />
+                <Input type='text' borderColor='black' name='rewards' onChange={(e) => handleChange(e)} />
               </FormControl>
             </VStack>
           </>
         }
       </Center>
-      <VStack p={12}>
-        <Button mt={8} onClick={(e) => handlePoolCreate(e)} px={8} mx={12} size='auto' fontSize='3rem' bg={'#eee'} border={'1px solid black'} _hover={{ bg: '#fff' }}>
+      <VStack px={12}>
+        <Button mt={8} onClick={(e) => handlePoolCreate(e)} px={8} mx={12} size='auto' fontSize='3rem' bg='#A0CDF6' border='1.5px solid' borderColor='black' _hover={{ bg: '#94bce0' }}>
           {loading ? "Creating...." : "Create Pool"}
         </Button>
-        <Box pt={12}>
-          <Text fontSize='xs'>All fields are required.</Text>
-          <Text fontSize='xs'>You can get an ArConnect wallet from <Link href='https://www.arconnect.io/' isExternal>here <ExternalLinkIcon /></Link></Text>
-        </Box>
       </VStack>
       {/* This needs to be replaced with REAL value. This is currently first index of ALL contracts */}
       {data && <PoolModal data={data} loading={loading} />}
